@@ -1,0 +1,17 @@
+version: "3.7" 
+services:
+  php:
+    build:
+      context: .
+      args:
+        ALPINE_VERSION: 3.11
+        PHP_VERSION: 7.4
+    ports: 
+      - "8080:8080"
+    container_name: php
+    volumes:
+      - .:/var/www/html/
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+    # command: php-watcher server.php --signal SIGTERM --arguments localhost --arguments 8080
+    command: php -S 0.0.0.0:8080 -t /var/www/html/server.php
