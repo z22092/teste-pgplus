@@ -1,29 +1,28 @@
-NAME = $(shell git ls-remote --get-url | cut -d ':'  -f2 | cut -d '.' -f -1)
-DOCKER_IMAGE = registry.gitlab.com/$(NAME)
+NAME = $(shell git ls-remote --get-url | cut -d '/'  -f 5 | cut -d "." -f -1)
 BRANCH = $(shell git symbolic-ref --short HEAD)
+VERSION = $(shell git describe --abbrev=0 --tags)
 
+.PHONY : build-docker-image start-docker-compose update-var-dot-env build-docker-image bash push
 
-build: ;
-	docker build --cache-from $(DOCKER_IMAGE):latest --tag $(DOCKER_IMAGE):	 --tag $(DOCKER_IMAGE):latest .;
+build-docker-image: 
+	 @docker-compose up --build -d;
 
-push: ;
-	docker push $(DOCKER_IMAGE):$(VERSION);
-	docker push $(DOCKER_IMAGE):latest;
+start-docker-compose:
+	 @docker-compose up -d;
 
-echo:
-	echo -e $(DOCKER_IMAGE)
-	echo -e $(BRANCH)
-	
-run:
-	docker run --env NODE_ENV=development  -p 127.0.0.1:7001:7001 $(DOCKER_IMAGE):$(VERSION)
+update-var-dot-env:
+	 @sed 's/$(shell cat .env | grep APPNAME | cut -d '=' -f 2)/$(NAME)/g' .env > .env2;
+	 @sed 's/$(shell cat .env | grep TAG | cut -d '=' -f 2)/$(BRANCH)-$(VERSION)/g' .env2 > .env;
+	 @rm .env2
 
-rundev:
-	eval $$(npm run dev  --quiet  --prefix ~/codes/bus/conversation/pgmais-2018-005/master/)
-	eval $$(npm run dev  --quiet  --prefix ~/codes/bus/conversation/pg018-consulta-cliente/master/)
+bash: 
+	@docker run -it $(NAME):$(BRANCH)-$(VERSION) bash;
 
+down: 
+	@docker-compose down;
 
-init:
-	docker-compose up
+logs:
+	@docker logs $(NAME)
 
-run: 
-	docker run -it php bash
+build: build-docker-image update-var-dot-env
+up: start-docker-compose update-var-dot-env bash

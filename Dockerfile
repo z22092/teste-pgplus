@@ -8,6 +8,8 @@ LABEL maintainer=jeff.venceslau@gmail.com
 
 ARG ALPINE_VERSION
 ARG PHP_VERSION
+ARG DOCKERPORT
+ARG feAPPNAME
 
 RUN apk add --update-cache \
   alpine-sdk \
@@ -82,13 +84,13 @@ RUN rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* \
   && apk del .phpize-deps
 
-RUN mkdir -pv --mode=777 /var/www/html/
+RUN mkdir -pv --mode=777 /var/www/html/$APPNAME
 
-WORKDIR /var/www/html/
+WORKDIR /var/www/html/$APPNAME
 
-RUN echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> ~/.bashrc
+ENV PATH=/root/.composer/vendor/bin:${PATH}
 
-EXPOSE 8080
+EXPOSE $DOCKERPORT
 
 # START WITH BASH.
-CMD ["/bin/bash"]
+CMD ["/bin/bash"] 

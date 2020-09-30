@@ -1,17 +1,22 @@
 version: "3.7" 
 services:
   php:
+    image: ${APPNAME}:${TAG}
     build:
       context: .
       args:
-        ALPINE_VERSION: 3.11
-        PHP_VERSION: 7.4
+        ALPINE_VERSION: ${ALPINE_VERSION}
+        PHP_VERSION: ${PHP_VERSION}
+        DOCKERPORT: ${DOCKERPORT}
+        APPNAME: ${APPNAME}
     ports: 
-      - "8080:8080"
-    container_name: php
+      - "${HOSTPORT}:${DOCKERPORT}"
+    container_name: ${APPNAME}
     volumes:
-      - .:/var/www/html/
+      - ./${APPNAME}:/var/www/html/${APPNAME}
       - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime
     # command: php-watcher server.php --signal SIGTERM --arguments localhost --arguments 8080
-    command: php -S 0.0.0.0:8080 -t /var/www/html/server.php
+    command: php artisan serve --host 0.0.0.0 --port=${DOCKERPORT}
+    env_file:
+    - .env
