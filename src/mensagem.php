@@ -13,19 +13,19 @@ class Valid
   public $overCharacters;
   public $valid;
 
-  function validateMessage( $config )
+  function validateMessage($config)
   {
-    $this->isInvalidPhone = preg_match($config->phoneRegex, $this->celular)  ? FALSE : TRUE ;
+    $this->isInvalidPhone = preg_match($config->phoneRegex, $this->celular)  ? FALSE : TRUE;
     $this->isInvalidDDD = in_array($this->ddd, $config->invalidsDDDs);
     $this->locationBlocked = in_array($this->ddd, $config->blockedLocations);
     $this->timeBlocked = $this->horarioEnvio > $config->maxTime;
     $this->overCharacters = strlen($this->texto) >= $config->maxNumCharacters;
     if (
-      $this->isInvalidPhone     || 
-      $this->isInvalidDDD      ||   
-      $this->locationBlocked  ||  
-      $this->timeBlocked        || 
-      $this->overCharacters  
+      $this->isInvalidPhone     ||
+      $this->isInvalidDDD      ||
+      $this->locationBlocked  ||
+      $this->timeBlocked        ||
+      $this->overCharacters
     ) {
       $this->valid = FALSE;
     } else {
@@ -46,39 +46,20 @@ class Mensagem extends Valid
   public $horarioEnvio;
   public $texto;
   public $idBroker;
- 
 
   function __construct($mensagem, $config)
   {
-    $this->idMensagem = $mensagem[0];
-    $this->ddd = preg_replace('/(^[0:])/', '', $mensagem[1]);
-    $this->celular = preg_replace('/(?!\d).?(?!\d )/', '', $mensagem[2]);
-    $this->fullNumber = $this->getFullNumber();
-    $this->operadora = $mensagem[3];
-    $this->horarioEnvio = date($mensagem[4]);
-    $this->texto = $mensagem[5];
-    $this->idBroker = $this->setBroker();
-    $this->id = $this->getId();
-    $this->validateMessage( $config );
-  }
-  function setBroker()
-  {
-    $operadora = strtoupper($this->operadora);
-    switch ($operadora) {
-      case 'VIVO':
-      case 'TIM':
-        return 1;
-        break;
-      case 'CLARO':
-      case 'OI':
-        return 2;
-        break;
-      case 'NEXTEL':
-        return 3;
-        break;
-      default:
-        return false;
-        break;
+    if ($mensagem) {
+      $this->idMensagem = $mensagem[0];
+      $this->ddd = preg_replace('/(^[0:])/', '', $mensagem[1]);
+      $this->celular = preg_replace('/(?!\d).?(?!\d )/', '', $mensagem[2]);
+      $this->fullNumber = $this->getFullNumber();
+      $this->operadora = $mensagem[3];
+      $this->horarioEnvio = date($mensagem[4]);
+      $this->texto = $mensagem[5];
+      $this->idBroker = $this->config[$this->operadora];
+      $this->id = $this->getId();
+      $this->validateMessage($config);
     }
   }
   function getFullNumber()
@@ -90,4 +71,3 @@ class Mensagem extends Valid
     return $this->idMensagem . ";" . $this->idBroker;
   }
 }
-

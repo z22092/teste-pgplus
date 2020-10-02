@@ -23,8 +23,8 @@ if (move_uploaded_file($file['tmp_name'], 'uploads/' . $file['name'])) {
     echo(json_encode($id)) . PHP_EOL;
     ob_flush();
     flush();
-  } 
-  unlink($ret["path"]);
+  }
+  fatality($ret["path"]);
 } else {
   $ret["status"] = "error";
 }

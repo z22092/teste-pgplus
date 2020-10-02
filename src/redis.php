@@ -15,7 +15,7 @@ function getAllValue($key)
   try {
     global $redis;
     $allValues = $redis->hGetAll($key);
-    deleteKey($key);
+    // deleteKey($key);
     return $allValues;
   } catch (Exception $e) {
     echo $e->getMessage();
@@ -31,6 +31,7 @@ function saveObject($key, $array)
     echo $e->getMessage();
   }
 }
+
 function getObject($key)
 {
   try {
@@ -41,6 +42,7 @@ function getObject($key)
     echo $e->getMessage();
   }
 }
+
 function saveHash($key, $hashKey, $value)
 {
   try {
@@ -71,11 +73,11 @@ function keyExists($key)
   }
 }
 
-function deleteKey($key)
+function flushDb()
 {
   try {
     global $redis;
-    $redis->del($key);
+    $redis->flushDb();
   } catch (Exception $e) {
     echo $e->getMessage();
   }

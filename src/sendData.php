@@ -6,6 +6,8 @@ function validPhones($config)
 
     $t = time();
     $callbackFile = fopen("download/".$t . ".txt", "w");
+    $rejected = fopen("download/" ."rejected". $t . ".csv", "w");
+
 
     $bd = $config->bdKeyName;
     $numbers = getSavedNumber($bd);
@@ -26,3 +28,4 @@ function validPhones($config)
     echo $e->getMessage();
   }
 }
+

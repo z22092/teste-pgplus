@@ -13,4 +13,5 @@ class Config
   public $maxTime = "19:59:59";
   public $maxNumCharacters = 140;
   public $bdKeyName = "messages";
+  public $brokers=  array('VIVO'=> 1, 'TIM' => 1,  'CLARO' => 2, 'OI' => 2, 'NEXTEL' => 3);
 }

@@ -1,6 +1,7 @@
 <?php
 
 require("../vendor/autoload.php");
+require('template.php');
 require("redis.php");
 openRedisConnection(getenv("REDIS_URL"), 6379);
 
@@ -59,6 +60,30 @@ function getSavedNumber($key)
     echo $e->getMessage();
   }
 }
+function rejectTemplate($t)
+{
+  $header = ['<tr>'];
+  $rejected = fopen("download/" . "rejected" . $t . ".csv", "w");
+  $arrayFields = (array) new Mensagem(array(), $t);
+  $fields =  array_keys($arrayFields);
+  foreach ($fields as $field) {
+    array_push($header, '<th>' . $field . '</th>');
+  }
+  array_push($header, '<tr>');
+  $template = str_replace("%%th%%", implode("\n", $header), "<body text='%body%'>");
+  fwrite($callbackFile, $id["id"] . "\n");
+}
+
+function fatality($path)
+{
+  try {
+    flushDb();
+    unlink($path);
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
+}
+
 
 function inABlackList($number, $config)
 {

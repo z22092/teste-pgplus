@@ -10,21 +10,20 @@ drop_.addEventListener('drop', function () {
   document.querySelector('.area-upload .label-upload').classList.remove('highlight');
 });
 
+var barra = document.createElement("div");
+var fill = document.createElement("div");
+var text = document.createElement("div");
+barra.appendChild(fill);
+barra.appendChild(text);
+barra.classList.add("barra");
+fill.classList.add("fill");
+text.classList.add("text");
+
+
 document.querySelector('#upload-file').addEventListener('change', function () {
-  var files = this.files;
+  files = this.files;
   for (var i = 0; i < files.length; i++) {
     var info = { "success": "Enviando: " + files[i].name };
-    var barra = document.createElement("div");
-    var fill = document.createElement("div");
-    var text = document.createElement("div");
-
-    barra.appendChild(fill);
-    barra.appendChild(text);
-
-    barra.classList.add("barra");
-    fill.classList.add("fill");
-    text.classList.add("text");
-
     if (info.error == undefined) {
       text.innerHTML = info.success;
       enviarArquivo(i, barra);
@@ -62,7 +61,7 @@ function enviarArquivo(indice, barra) {
       var response = this.response.split('\n');
       response = response[response.length - 2];
       const lastResponse = JSON.parse(response);
-      
+
       if (lastResponse) {
         load.unshift(`<a href=${lastResponse.file} target="_blank"> ${lastResponse.id} </a> <i class="fas fa-check"></i>`);
         barra.querySelector(".text").innerHTML = load.join('<br>');
