@@ -1,3 +1,4 @@
 node_modules
-download
-uploads
+download/*
+uploads/*
+vendor

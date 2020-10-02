@@ -14,12 +14,16 @@ services:
     container_name: ${APPNAME}
     environment:
       REDIS_URL: redis
+    working_dir: /var/www/html/${APPNAME}
     volumes:
       - ./:/var/www/html/${APPNAME}
       - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime
       - ./config/php.ini:/etc/php7/php.ini
-    command: php -S 0.0.0.0:8080
+    command: >
+        bash -c 
+            "composer install &&
+            php -S 0.0.0.0:8080"
     env_file:
       - .env
     links:

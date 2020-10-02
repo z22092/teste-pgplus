@@ -11,7 +11,7 @@
 		<div class="area-upload">
 			<label for="upload-file" class="label-upload">
 				<i class="fas fa-cloud-upload-alt"></i>
-				<div class="texto">Clique ou arraste o arquivo</div>
+				<div class="texto"> </div>
 			</label>
 			<input type="file" id="upload-file" multiple/>
 			<div class="lista-uploads">

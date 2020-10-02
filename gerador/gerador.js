@@ -4,9 +4,8 @@ const moment = require("moment");
 const fs = require("fs")
 const operadoras = ["TIM", "NEXTEL", "CLARO", "VIVO", "OI"];
 
-
 const generate = async (numb) => {
-  const stream = fs.createWriteStream(`./files/${uuid.v1()}.txt`)
+  const stream = fs.createWriteStream(`${__dirname}/files/${uuid.v1()}.txt`)
   const quotes = await axios("http://futuramaapi.herokuapp.com/api/characters/bender" )
 
   for (let i = 0; i < numb; i++) {

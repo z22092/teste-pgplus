@@ -17,7 +17,7 @@ body{
 }
 
 .area-upload label.label-upload{
-	border: 2px dashed #0d8acd;
+	border: 2px dashed #0ed851;
 	min-height: 200px;
 	text-align: center;
 	width: 100%;
@@ -25,7 +25,7 @@ body{
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	color: #0d8acd;
+	color: #30ac67;
 	position: relative;
 	
 	-webkit-transition: .3s all;

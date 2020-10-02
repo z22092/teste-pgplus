@@ -1,4 +1,5 @@
 <?php
+
 require("parser.php");
 
 header('Content-Type: text/octet-stream');
@@ -8,7 +9,6 @@ $file = $_FILES["file"];
 $ret = [];
 
 if (move_uploaded_file($file['tmp_name'], 'uploads/' . $file['name'])) {
-  $ret["status"] = "success";
   $ret["path"] = 'uploads/' . $file['name'];
   $ret["name"] = $file['name'];
   foreach (parseData($ret["path"]) as $id){
@@ -19,5 +19,4 @@ if (move_uploaded_file($file['tmp_name'], 'uploads/' . $file['name'])) {
   unlink($ret["path"]);
 } else {
   $ret["status"] = "error";
-  $ret["name"] = $file['name'];
 }

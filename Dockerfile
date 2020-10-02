@@ -75,9 +75,6 @@ RUN set -xe \
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer \
   && chmod 755 /bin/composer
 
-RUN composer global require seregazhuk/php-watcher
-RUN composer global require laravel/installer
-
 RUN rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/pear/ \
   && rm -rf /usr/share/php7 \
