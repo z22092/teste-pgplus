@@ -1,4 +1,4 @@
-version: "3.7" 
+version: "3.7"
 services:
   php:
     image: ${APPNAME}:${TAG}
@@ -9,14 +9,25 @@ services:
         PHP_VERSION: ${PHP_VERSION}
         DOCKERPORT: ${DOCKERPORT}
         APPNAME: ${APPNAME}
-    ports: 
+    ports:
       - "${HOSTPORT}:${DOCKERPORT}"
     container_name: ${APPNAME}
+    environment:
+      REDIS_URL: redis
     volumes:
-      - ./${APPNAME}:/var/www/html/${APPNAME}
+      - ./:/var/www/html/${APPNAME}
       - /etc/timezone:/etc/timezone
       - /etc/localtime:/etc/localtime
-    # command: php-watcher server.php --signal SIGTERM --arguments localhost --arguments 8080
-    command: php artisan serve --host 0.0.0.0 --port=${DOCKERPORT}
+      - ./config/php.ini:/etc/php7/php.ini
+    command: php -S 0.0.0.0:8080
     env_file:
-    - .env
+      - .env
+    links:
+      - redis
+    depends_on:
+      - redis
+  redis:
+    image: redis
+    # command: redis-server --requirepass Redis2019!
+    ports:
+      - "6379:6379"

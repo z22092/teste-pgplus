@@ -25,4 +25,4 @@ logs:
 	@docker logs $(NAME)
 
 build: build-docker-image update-var-dot-env
-up: start-docker-compose update-var-dot-env bash
+up: start-docker-compose update-var-dot-env
