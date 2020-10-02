@@ -14,17 +14,13 @@ ARG feAPPNAME
 RUN apk add --update-cache \
   alpine-sdk \
   sudo \
-  git \
   bash \
   nano \
   curl \
+  make \
   ca-certificates \
-  curl \
-  openssh-client \
-  libmemcached-libs \
-  libevent \
-  libssl1.1 \
-  musl  
+  openssh-client 
+
 
 ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 

@@ -2,11 +2,6 @@ NAME = $(shell git ls-remote --get-url | cut -d '/'  -f 5 | cut -d "." -f -1)
 BRANCH = $(shell git symbolic-ref --short HEAD)
 VERSION = $(shell git describe --abbrev=0 --tags)
 
-ifeq (run,$(firstword $(MAKECMDGOALS)))
-  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-  $(eval $(RUN_ARGS):;@:)
-endif
-
 .PHONY : build-docker-image start-docker-compose update-var-dot-env build-docker-image bash push open-url
 .PHONY : gen-npm-install run
 
@@ -28,7 +23,7 @@ bash:
 	@docker run -it $(NAME):$(BRANCH)-$(VERSION) bash;
 
 down: 
-	@docker-compose down;
+	@docker-compose down;	
 
 logs:
 	@docker logs $(NAME)

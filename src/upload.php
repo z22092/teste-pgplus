@@ -2,6 +2,14 @@
 
 require("parser.php");
 
+if (!file_exists('uploads')) {
+  mkdir('uploads', 0777, true);
+}
+
+if (!file_exists('download')) {
+  mkdir('download', 0777, true);
+}
+
 header('Content-Type: text/octet-stream');
 header('Cache-Control: no-cache');
 
