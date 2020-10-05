@@ -20,7 +20,14 @@ More exemples of [accepted](https://raw.githubusercontent.com/z22092/teste-pgplu
 
 ## - How to run -
 
-There is a Makefile at the root of the project with useful commands;
+Requiriments
+
+- - [Docker](https://docs.docker.com/install/)
+
+- - [Docker-Compose](https://docs.docker.com/compose/install/)
+
+
+There is a Makefile at the root of the project with useful commands; (only linux users)
 
 - make build: build a docker image used to run the system and upload the container instances;
 
@@ -45,11 +52,19 @@ There is a .env inside the folder that loads some useful settings:
 - HOSTPORT=8080
 
 - DOCKERPORT=8080
-
-  
-  
+ 
+## *Linux*
 
 1. To run just run the command "make build", wait it finish, and done <br><br>
+
+
+## *Windows*
+  
+1. Follow commands
+
+  ```
+  docker-compose up --build -d
+  ```
 
 2. Then just access the address http://localhost:8080<br><br>
 
@@ -63,12 +78,10 @@ There is a .env inside the folder that loads some useful settings:
 
 ![finish](https://raw.githubusercontent.com/z22092/teste-pgplus/master/_data_/finish.png)<br><br>
 
-  
-  
+
 
 ## - Used technologies -
 
-  
 
 **OS**
 
@@ -168,25 +181,25 @@ Note left of Check Blacklist:process start on <br> parser finish
 
 |DDD|REGION|STATE|
 
-|--|----------------------|---------|
+|:--|:----------------------|---------:|
 
-|11|São Paulo |São Paulo|
+|`11`|São Paulo |São Paulo|
 
-|12|São José dos Campos |São Paulo|
+|`12`|São José dos Campos |São Paulo|
 
-|13|Santos |São Paulo|
+|`13`|Santos |São Paulo|
 
-|14|Bauru |São Paulo|
+|`14`|Bauru |São Paulo|
 
-|15|Sorocaba |São Paulo|
+|`15`|Sorocaba |São Paulo|
 
-|16|Ribeirão Preto |São Paulo|
+|`16`|Ribeirão Preto |São Paulo|
 
-|17|São José do Rio Preto |São Paulo|
+|`17`|São José do Rio Preto |São Paulo|
 
-|18|Presidente Prudente |São Paulo|
+|`18`|Presidente Prudente |São Paulo|
 
-|19|Campinas |São Paulo|
+|`19`|Campinas |São Paulo|
 
   
 
