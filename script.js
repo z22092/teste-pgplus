@@ -10,7 +10,6 @@ drop_.addEventListener('drop', function () {
   document.querySelector('.area-upload .label-upload').classList.remove('highlight');
 });
 
-var files = this.files;
 
 var barra = document.createElement("div");
 var fill = document.createElement("div");
@@ -25,6 +24,8 @@ text.classList.add("text");
 
 
 document.querySelector('#upload-file').addEventListener('change', function () {
+  var files = this.files;
+
   for (var i = 0; i < files.length; i++) {
     var info = { "success": "Enviando: " + files[i].name };
     if (info.error == undefined) {
@@ -46,11 +47,8 @@ function enviarArquivo(indice, barra) {
   data.append('file', document.querySelector('#upload-file').files[indice]);
   request.onreadystatechange = function (event) {
     if (this.responseText) {
-
       const partialResponse = this.responseText.split("\n")[i];
-
       i++
-
       const partialResponseJson = JSON.parse(partialResponse)
       load.push(`<a> ${partialResponseJson.id} <i class="fas fa-check"> </i>`)
       barra.querySelector(".text").innerHTML = load.join('<br>');
@@ -61,22 +59,30 @@ function enviarArquivo(indice, barra) {
   }
   request.addEventListener('load', function (event) {
     if ('CLOSE') {
-      var response = this.response.split('\n');
-      response = response[response.length - 2];
-      const lastResponse = JSON.parse(response);
-
-      if (lastResponse) {
-        load.unshift(`<a href=${lastResponse.file} target="_blank"> ${lastResponse.id} </a> <i class="fas fa-check"></i>`);
-        barra.querySelector(".text").innerHTML = load.join('<br>');
-      }
+      const final = []
+      const response = this.response.split('\n');
+      response.map(item => {
+        if (item) {
+          item = JSON.parse(item)
+          if (item.file) {
+            final.unshift(`<a href=${item.file} target="_blank"> ${item.id} </a> <i class="fas fa-check"></i>`);
+          } else {
+            final.push(`<a> ${item.id} <i class="fas fa-check"> </i>`)
+          }
+        }
+      });
+      barra.querySelector(".text").innerHTML = final.join('<br>');
       barra.querySelector(".fill").style.minWidth = 100 + "%";
       barra.classList.add("complete");
     }
   });
+
   request.upload.addEventListener('progress', function (e) {
+    barra.classList.remove("complete");
     const percent_complete = (e.loaded / e.total) * 100;
     barra.querySelector(".fill").style.minWidth = percent_complete + "%";
   });
+
   request.responseType = 'octet-stream';
   request.open('post', './src/upload.php', true);
   request.send(data);

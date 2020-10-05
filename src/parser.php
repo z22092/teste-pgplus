@@ -5,6 +5,7 @@ require('rules.php');
 require('controller.php');
 require("sendData.php");
 
+
 function parseData($file)
 {
   try {
@@ -18,6 +19,8 @@ function parseData($file)
       if ($mensagem["valid"]) {
         if (!saveRedis($mensagem, $config)) {
           checkDuplicity($mensagem, $config);
+        } else {
+          
         }
       }
     }

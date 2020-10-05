@@ -36,7 +36,6 @@ RUN apk add --update-cache \
   php-common \
   php-fpm \
   php-cgi \
-  php-cgi \
   php-gd \
   php-gmp \
   php-opcache \
@@ -49,6 +48,7 @@ RUN apk add --update-cache \
   php-mbstring \
   php-openssl \
   php-pdo \
+  php-dom \
   php-pdo_pgsql \
   php-xml \
   php-phar \

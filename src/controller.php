@@ -1,11 +1,10 @@
 <?php
 
-require("../vendor/autoload.php");
+require(__DIR__ . "/../vendor/autoload.php");
 require("redis.php");
 openRedisConnection(getenv("REDIS_URL"), 6379);
 
 use Symfony\Component\HttpClient\HttpClient;
-
 
 function checkDuplicity($mensagem, $config)
 {
@@ -55,6 +54,16 @@ function getSavedNumber($key)
   try {
     $allValue = getAllValue($key);
     return array_keys($allValue);
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
+}
+
+function fatality($path)
+{
+  try {
+    flushDb();
+    unlink($path);
   } catch (Exception $e) {
     echo $e->getMessage();
   }
